@@ -1,0 +1,75 @@
+// You are using C#
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+public abstract class Product{
+    public string ProductName {get; set;}
+    public double Price {get; set;}
+}
+
+public class RegularProduct : Product{
+    
+    public void AddToCart(ShoppingCart sc){
+        sc.AddRegularProductPrice(Price);
+    }
+}
+
+
+public class DiscountedProduct : Product{
+    public double DiscountedPercentage {get; set;}
+    
+    public void AddToCart(ShoppingCart sc){
+        double res = Price - (Price * (DiscountedPercentage / 100));
+        sc.AddDiscountedProductPrice(res);
+    }
+}
+
+public class ShoppingCart{
+    
+    List<double> li = new List<double>();
+    public void AddRegularProductPrice(double a){
+        li.Add(a);
+    }
+    public void AddDiscountedProductPrice(double b){
+        li.Add(b);
+    }
+    public double CalculateTotalPrice(){
+       double res = li.Sum();
+       return res;
+    }
+}
+
+class Program{
+    public static void Main(){
+        ShoppingCart sc = new ShoppingCart();
+        while(true){
+            string choice = Console.ReadLine().Trim().ToLower();
+            
+            if(choice == "done"){
+                break;
+            }else if(choice == "r"){
+                string name = Console.ReadLine();
+                double num1 = double.Parse(Console.ReadLine());
+                RegularProduct rp = new RegularProduct();
+                rp.ProductName = name;
+                rp.Price = num1;
+                rp.AddToCart(sc);
+            } else if(choice == "d"){
+               string name = Console.ReadLine();
+               double num1 = double.Parse(Console.ReadLine());
+               double num2 = double.Parse(Console.ReadLine());
+               DiscountedProduct dp = new DiscountedProduct();
+               dp.ProductName = name;
+               dp.Price = num1;
+               dp.DiscountedPercentage = num2;
+               dp.AddToCart(sc);
+            } else {
+                Console.WriteLine("Invalid input. Please try again.");
+            }
+        }
+        
+        Console.WriteLine($"Total Price: {sc.CalculateTotalPrice()}");
+        
+    }
+}
