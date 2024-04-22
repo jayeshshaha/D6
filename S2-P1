@@ -1,0 +1,68 @@
+// You are using C#
+using System;
+using System.Collections.Generic;
+
+public abstract class Shape{
+    public abstract double Area();
+}
+public class Rectangle : Shape{
+    public double Height{get; set;}
+    public double Width{get; set;}
+
+
+    public override double Area(){
+        return Height * Width;
+    }
+}
+
+public class Circle : Shape{
+    public double Radius{get; set;}
+  
+    public override double Area(){
+        return Math.PI * Radius * Radius;
+    }
+}
+
+public class AreaCalculator{
+    
+    public double CalculateTotalArea(List<Shape> li){
+       double totalArea = 0;
+       foreach(var i in li){
+           totalArea += i.Area();
+       }
+        return totalArea;
+    }
+}
+
+class Program{
+    public static void Main(){
+        List<Shape> li = new List<Shape>();
+        
+        AreaCalculator ac = new AreaCalculator();
+        while(true){
+        string shape = Console.ReadLine().ToUpper();
+            if(shape == "N"){
+                break;
+        }
+            if(shape == "R"){
+            double height = double.Parse(Console.ReadLine());
+            double width = double.Parse(Console.ReadLine());
+            Rectangle r = new Rectangle(){Height = height, Width = width};
+            li.Add(r);
+        }
+            else if(shape == "C"){
+            double radius = double.Parse(Console.ReadLine());
+            Circle c = new Circle(){Radius = radius};
+            li.Add(c);
+        }
+            else if(shape == "Y"){
+            continue;
+        }
+            else{
+            Console.WriteLine("Invalid shape. Please try again.");
+            break;
+        }
+      }
+        Console.WriteLine($"Total area of all shapes: {ac.CalculateTotalArea(li)}");
+    }
+}
