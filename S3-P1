@@ -1,0 +1,39 @@
+// You are using C#
+using System;
+
+public sealed class Singleton{
+    private static Singleton singleton;
+    
+    private Singleton(){}
+    
+    private int instanceCounter = 1;
+    
+    public int GetInstanceCounter(){
+        return instanceCounter;
+    }
+    
+    public static Singleton GetInstance(){
+        if(singleton ==  null){
+            singleton = new Singleton();
+        }
+        return singleton;
+    }
+    
+    public void IncrementInstanceCounter(){
+        instanceCounter++;
+    }
+    
+    public void DisplayMessage(string str){
+        Console.WriteLine($"Singleton says: {str}");
+    }
+} 
+
+class Program{
+    public static void Main(){
+        string a = Console.ReadLine();
+        Singleton obj = Singleton.GetInstance();
+        obj.IncrementInstanceCounter();
+        Console.WriteLine($"Instance Counter: {obj.GetInstanceCounter()}");
+        obj.DisplayMessage(a);
+    }
+}
