@@ -1,0 +1,40 @@
+// You are using C#
+using System;
+using System.Collections.Generic;
+
+public sealed class Logger{
+    private static Logger logger;
+    private Logger(){}
+    
+    public static Logger GetInstance(){
+        if(logger == null){
+            logger = new Logger();
+        }
+        return logger;
+    }
+    
+    List<string> logMessages = new List<string>();
+    public void LogMessage(string str){
+        Console.WriteLine($"Logging message: {str}");
+        logMessages.Add(str);
+    }
+    
+    public void DisplayLogMessages(){
+        Console.WriteLine("Log Messages:");
+        foreach(var i in logMessages){
+            Console.WriteLine(i);
+        }
+    }
+}
+
+class Program{
+    static void Main(){
+        Logger obj = Logger.GetInstance();
+        int size = int.Parse(Console.ReadLine());
+        for(int i=0;i<size;i++){
+            string str = Console.ReadLine();
+            obj.LogMessage(str);
+        }
+        obj.DisplayLogMessages();
+    }
+}
